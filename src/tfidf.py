@@ -1,6 +1,7 @@
 """Package to create a tf-idf Matrix from documents"""
 from stemming.porter2 import stem
 from textblob import TextBlob as tb
+import math
 
 def tf(f, word):
     blob = tb(f)

@@ -1,10 +1,12 @@
 """Main File"""
-import hamming
+import distance
 import simple_cluster
 import tfidf
 from os import listdir
 from sklearn import cluster
+from sklearn.neighbors import NearestNeighbors
 from matplotlib.colors import ListedColormap
+from sklearn import cluster
 from sklearn import neighbors, datasets
 import numpy as np
 import matplotlib.pyplot as plt
@@ -12,9 +14,6 @@ from textblob import TextBlob as tb
 from textblob import Word
 from stemming.porter2 import stem
 import features
-import sys
-reload(sys)
-sys.setdefaultencoding('ascii')
 
 #simple_cluster.run()
 PATH = "./blurbs/"
@@ -25,9 +24,20 @@ for f in FILENAMES:
     fileString = fileOpen.read()
     files.append(fileString)
 
-X = tfidf.fast_tf_idf(files, 'learning')
-Y = np.zeros(len(X))
-for i in range(len(X)):
-    Y[i] = i
-plt.scatter(Y, X)
+"""
+X = []
+X.append(tfidf.fast_tf_idf(files, "learning"))
+X.append(tfidf.fast_tf_idf(files, "knn"))
+X.append(tfidf.fast_tf_idf(files, "neural"))
+X.append(tfidf.fast_tf_idf(files, "network"))
+X.append(tfidf.fast_tf_idf(files, "deep"))
+"""
+X = []
+for f1 in files:
+    Y = []
+    for f2 in files:
+        Y.append(distance.hammingDistance(f1, f2))
+    X.append(Y)
+
+plt.matshow(X)
 plt.show()

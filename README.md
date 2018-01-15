@@ -34,10 +34,19 @@ completely differents in regards of the Hamming Distance.
 
 ## Third try
 
-We then implement a version of tf-idf which allows us to compare the 
-documents based on certain word.
+We then implemented a version of tf-idf which allows us to compare the 
+documents based on certain words.
+We ran it with "learning", "knn", "neural", "network"
+and "deep".
+The algorithm is returning -1 in case of encoding error.
 
 ## Fourth try
 
 We try an other k-means algorithm on a different set of features: the 
 length of each part of the document.
+We use PCA (Principal Component Analysis) of sklearn library to transform
+our 6 features in a 2d projection. We then apply a K_Means algorithm to that
+and we can identify 5 clusters. We can imagine then use this model to evaluate
+new documents.
+
+![fig4](./img/fig4.png)

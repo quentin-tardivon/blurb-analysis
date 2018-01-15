@@ -24,14 +24,33 @@ for f in FILENAMES:
     fileString = fileOpen.read()
     files.append(fileString)
 
-"""
+
+# tfidf calculus
+
+print "TFIDF Step"
+print "TFIDF for learning"
+print tfidf.fast_tf_idf(files, "learning")
+print "TFIDF for knn"
+print tfidf.fast_tf_idf(files, "knn")
+print "TFIDF for neural"
+print tfidf.fast_tf_idf(files, "neural")
+print "TFIDF for network"
+print tfidf.fast_tf_idf(files, "network")
+print "TFIDF for deep"
+print tfidf.fast_tf_idf(files, "deep")
+
+# Classification by TF
+Y = ["learning", "knn", "neural", "network", "deep"]
 X = []
-X.append(tfidf.fast_tf_idf(files, "learning"))
-X.append(tfidf.fast_tf_idf(files, "knn"))
-X.append(tfidf.fast_tf_idf(files, "neural"))
-X.append(tfidf.fast_tf_idf(files, "network"))
-X.append(tfidf.fast_tf_idf(files, "deep"))
-"""
+for f in files:
+    temp = []
+    for word in Y:
+        temp.append(tfidf.tf(f, word))
+    X.append(temp)
+print "TF for [learning, knn, neural, network, deep]"
+print X
+
+# Hamming Distance
 X = []
 for f1 in files:
     Y = []
@@ -39,5 +58,12 @@ for f1 in files:
         Y.append(distance.hammingDistance(f1, f2))
     X.append(Y)
 
+print "Matrix of Hamming Distance between all files"
 plt.matshow(X)
 plt.show()
+
+# Simples clustering
+print "Clustering by K_Means on 2 features: size of the document and size of the commentary"
+simple_cluster.cluster1()
+print "Clustering by K_Means on 6 features: size of each part of the document"
+simple_cluster.cluster2()

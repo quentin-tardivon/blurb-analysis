@@ -7,10 +7,10 @@ def tf(f, word):
     blob = tb(f)
     stemList = []
     tf = 0
-    word = stem(word)  
+    word = stem(word)
     try:
-        for word in blob.words:
-            stemList.append(stem(word))
+        for words in blob.words:
+            stemList.append(stem(words))
         for stemWord in stemList:
             if stemWord == word:
                 tf += 1
@@ -32,5 +32,9 @@ def fast_tf_idf(data, word):
     X = []
     temp = idf(data, word)
     for f in data:
-        X.append(tf(f, word) * temp)
+        x = tf(f, word) * temp
+        if x < 0:
+            X.append(-1)
+        X.append(x)
+        
     return X

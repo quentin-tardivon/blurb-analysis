@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import features
 from sklearn.neighbors import NearestNeighbors
+from sklearn.decomposition import PCA
 
 
 def cluster1():
@@ -60,6 +61,7 @@ def cluster2():
     nbrs = NearestNeighbors(n_neighbors=5, algorithm='ball_tree').fit(f)
     distances, indices = nbrs.kneighbors(f)
 
+    print "Distances and indices with kneighbors algorithm"
     print distances
     print indices
 
@@ -76,12 +78,21 @@ def cluster2():
         i += 1
 
     CENTERS = K_MEANS.cluster_centers_
-    print CENTERS
+    pca = PCA(n_components=2)
+    X_r = pca.fit(f).transform(f)
 
+    X1 = []
+    Y1 = []
+    for i in range(len(X_r)):
+        X1.append(X_r[i, 0])
+        Y1.append(X_r[i, 1])
+    
+    K_MEANS.fit(X_r)
+    NCENTERS = K_MEANS.cluster_centers_
     FIG = plt.figure()
     AX = FIG.add_subplot(111)
-    SCATTER = AX.scatter(X, Y, c=K_MEANS.labels_, s=50)
-    for i, j, k, l, m, n in CENTERS:
+    SCATTER = AX.scatter(X1, Y1, c=K_MEANS.labels_, s=50)
+    for i, j in NCENTERS:
         AX.scatter(i, j, s=50, c='red', marker='+')
     AX.set_xlabel('x')
     AX.set_ylabel('y')
